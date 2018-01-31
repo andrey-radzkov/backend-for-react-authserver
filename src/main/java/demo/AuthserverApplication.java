@@ -132,7 +132,12 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
                     .autoApprove(false)
                     .accessTokenValiditySeconds(300)
                     // OPTIONAL in specification!!!!!
-                    .redirectUris("http://localhost:8080/login", "http://localhost:3000/login", "https://localhost:3000/login")
+                    //TODO: enviromental config
+                    .redirectUris("http://localhost:8080/login"
+                            , "http://localhost:3000/login"
+                            , "https://localhost:3000/login"
+                            , "https://temp-react-for-heroku.herokuapp.com/login"
+                    )
                     .authorizedGrantTypes("authorization_code", "implicit", "refresh_token", "password")
                     .scopes("resource-read", "write")
                     .resourceIds("resource-id1", "resource-id2")
