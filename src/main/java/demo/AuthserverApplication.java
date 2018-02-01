@@ -1,6 +1,7 @@
 package demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -36,6 +37,9 @@ import java.security.Principal;
 @SessionAttributes("authorizationRequest")
 @EnableResourceServer
 public class AuthserverApplication extends WebMvcConfigurerAdapter {
+
+    @Value("#{'${allowed.domains}'.split(',')}")
+    private String[] allowedDomains;
 
     public static void main(String[] args) {
 
@@ -104,7 +108,7 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
 
     @Configuration
     @EnableAuthorizationServer
-    protected static class OAuth2AuthorizationConfig extends
+    protected class OAuth2AuthorizationConfig extends
             AuthorizationServerConfigurerAdapter {
 
         @Autowired
@@ -132,12 +136,7 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
                     .autoApprove(false)
                     .accessTokenValiditySeconds(300)
                     // OPTIONAL in specification!!!!!
-                    //TODO: enviromental config
-                    .redirectUris("http://localhost:8080/login"
-                            , "http://localhost:3000/login"
-                            , "https://localhost:3000/login"
-                            , "https://temp-react-for-heroku.herokuapp.com/login"
-                    )
+                    .redirectUris(allowedDomains)
                     .authorizedGrantTypes("authorization_code", "implicit", "refresh_token", "password")
                     .scopes("resource-read", "write")
                     .resourceIds("resource-id1", "resource-id2")

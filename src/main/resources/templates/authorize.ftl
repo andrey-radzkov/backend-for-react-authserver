@@ -1,6 +1,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="../css/wro.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div class="container">
