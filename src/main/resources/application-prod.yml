@@ -1,2 +1,2 @@
 allowed:
-    domains: https://temp-react-for-heroku.herokuapp.com/login
+    domains: https://temp-react-for-heroku.herokuapp.com/login,http://localhost:20000/login,https://time-to-wash-ui.herokuapp.com/login

@@ -1,4 +1,4 @@
-package demo;
+package com.radzkov.authserver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
