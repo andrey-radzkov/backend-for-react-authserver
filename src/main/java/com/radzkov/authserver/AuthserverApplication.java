@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -60,13 +59,13 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
         registry.addViewController("/oauth/confirm_access").setViewName("authorize");
     }
 
-    @Bean
-    public FilterRegistrationBean someFilterRegistration() {
-
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setOrder(1);
-        return registration;
-    }
+//    @Bean
+//    public FilterRegistrationBean someFilterRegistration() {
+//
+//        FilterRegistrationBean registration = new FilterRegistrationBean();
+//        registration.setOrder(1);
+//        return registration;
+//    }
 
     @Configuration
     @Order(-20)
