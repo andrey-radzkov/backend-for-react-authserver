@@ -1,4 +1,4 @@
-package demo;
+package com.radzkov.authserver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,9 +64,6 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
     public FilterRegistrationBean someFilterRegistration() {
 
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new RequestLogFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("RequestLogFilter");
         registration.setOrder(1);
         return registration;
     }
