@@ -1,5 +1,5 @@
 allowed:
-    domains: http://localhost:8080/login,http://localhost:3000/login,https://localhost:3000/login
+    domains: http://localhost:8080/login,http://localhost:3000/login,https://localhost:20000/login
 logging:
     level:
         org:
