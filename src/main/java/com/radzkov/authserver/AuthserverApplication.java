@@ -41,14 +41,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.AUD;
 import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.AUTHORITIES;
-import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.CLIENT_ID;
 import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.EXP;
 import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.GRANT_TYPE;
 import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.JTI;
@@ -62,6 +60,8 @@ import static org.springframework.security.oauth2.provider.token.UserAuthenticat
 public class AuthserverApplication extends WebMvcConfigurerAdapter {
 
     private static final String ACME = "acme";
+    private static final String FIRST_NAME = "first_name";
+    private static final String LAST_NAME = "last_name";
     @Value("#{'${allowed.domains}'.split(',')}")
     private String[] allowedDomains;
 
@@ -87,20 +87,16 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
         //TODO: refactor
         //TODO: use http://www.baeldung.com/spring-security-oauth-jwt
         UserInfoTokenServices userInfoTokenServices = new UserInfoTokenServices(
-                "https://api.vk.com/method/users.get?v=5.75&user_ids=" + vkToken.getUserId() +
+                "https://api.vk.com/method/users.get?v=5.78&user_ids=" + vkToken.getUserId() +
                         "&access_token=" + vkToken.getToken(), "6483319");
         OAuth2Authentication vkAuthentication = userInfoTokenServices.loadAuthentication(vkToken.getToken());
         Map<String, Object> response = ((ArrayList<HashMap<String, Object>>) ((HashMap<String, Object>) vkAuthentication.getUserAuthentication().getDetails()).get("response")).get(0);
-        String name = response.get("id") + " " + response.get("first_name") + " " + response.get("last_name");
+        String name = "vk_" + response.get("id");
 
         Map<String, Object> map = new HashMap<>();
-        map.put(CLIENT_ID, ACME);
         map.put(GRANT_TYPE, "access_token");
-        map.put(CLIENT_ID, ACME);
-        map.put(CLIENT_ID, ACME);
         map.put(USERNAME, name);
         map.put(AUTHORITIES, "ROLE_USER,ROLE_ACTUATOR");
-        map.put(SCOPE, Collections.singletonList("resource-read"));
         map.put(SCOPE, Collections.singletonList("resource-read"));
         map.put(AUD, Arrays.asList("resource-id1", "resource-id2"));
 
@@ -112,7 +108,8 @@ public class AuthserverApplication extends WebMvcConfigurerAdapter {
         additionalInformation.put(SCOPE, Collections.singletonList("resource-read"));
         additionalInformation.put(JTI, UUID.randomUUID().toString());
         additionalInformation.put(EXP, new Date(new Date().getTime() + (5 * 60000)));
-
+        additionalInformation.put(FIRST_NAME, response.get("first_name"));
+        additionalInformation.put(LAST_NAME, response.get("last_name"));
         accessToken.setAdditionalInformation(additionalInformation);
 
         accessToken.setRefreshToken(new DefaultOAuth2RefreshToken("refresh"));
